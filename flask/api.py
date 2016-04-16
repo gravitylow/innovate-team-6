@@ -39,7 +39,7 @@ def severities():
 
 
 @app.route("/severities/<int:sev_id>", methods=['GET'])
-def severities(sev_id):
+def severitiesByID(sev_id):
     cursor.execute("SELECT * FROM SEVERITies WHERE SEV_ID = " & sev_id)
     rows = cursor.fetchall()
     return json.dumps(rows, default=date_handler);
