@@ -43,7 +43,7 @@ def incidentSubmit():
                    """ + contactphone + """,
                    """ + description + """,
                    """ + latitude + """,
-                   """ + longitude + ")"
+                   """ + longitude + ")")
     return 'OK, thanks luv you bye'
 
 @app.route("/incident/<int:id>")
