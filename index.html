@@ -1,66 +1,62 @@
 <!DOCTYPE html>
 <html>
-	<head>
-  	<title>Incident Reporting System</title>
-  	<meta name="viewport" content="width=device-width, initial-scale=1">
-  	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
-  	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-  	<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
-	<script type ="text/javascript">
+<head>
+    <title>Incident Reporting System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+    <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+  
+</head>
+<body>
+    <div data-role="page">
+        <div data-role="header">
+            <h1>IRS</h1>
+        </div>
+        <div data-role="content">
+            <h4>In the event of an emergency please call 911</h4>
+            <div id="IncTypes">
+                <ul data-role="listview" data-inset="true" data-filter="true"></ul>
+            </div>
+        </div>
+        <div data-role="footer">
+            <h1>NNS Open line number: 1-877-631-0020</h1>
+        </div>
+    </div>
+    <script type="text/javascript">
 
-	function getIncidentTypes() {
-	      $('input[type=button]').attr('disabled', true);
-	      $("#MemberDetails").html('');
-	      $("#MemberDetails").addClass("loading");
-	      $.ajax({
-		type: "GET",
-		url: "http://54.152.223.36:5000/incidenttype",
-		data: "{}",
-		contentType: "application/json; charset=utf-8",
-		dataType: "json",
-		success: OnGetIncidentTypesSuccess,
-		error: OnGetMemberError
-		});
-	    }
+        getIncidentTypes();
 
-	    function OnGetIncidentTypesSuccess(data,status)
-	    {
-		console.log(data);
-		for( i = 0; i <data.length;i++){
-		
-		  $("#IncTypes ul").append('<li><a href="ReportSubmission.html?IncType='+data[i][0]+'">'+data[i][1]+'</a></li>');
-		
-		}
-			$("#IncTypes ul").listview("refresh");
-	
-		console.log(status);
-		}
-	    function OnGetMemberError(data,status)
-	    {
-		console.log("error");
-		}
+        function getIncidentTypes() {
+            $('input[type=button]').attr('disabled', true);
+            $("#MemberDetails").html('');
+            $("#MemberDetails").addClass("loading");
+            $.ajax({
+                type: "GET",
+                url: "http://54.152.223.36:5000/incidenttype",
+                data: "{}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnGetIncidentTypesSuccess,
+                error: OnGetMemberError
+            });
+        }
 
-	</script>
-  </head>
-  <body onload="getIncidentTypes();">
-  <div data-role="page">
-  	<div data-role="header">
-  		<h1>IRS</h1>
-  	</div>
-  	<div data-role="content">
-  		<h4>In the event of an emergency please call 911</h4>
-	  <div id = "IncTypes">
-      <ul data-role="listview" data-inset="true" data-filter="true">
-      </ul>
-      </div>
-  	</div>
-  <div data-role="footer">
-  <h1>NNS Open line number: 1-877-631-0020</h1>
-  </div>
+        function OnGetIncidentTypesSuccess(data, status) {
+            console.log(data);
+            for (i = 0; i < data.length; i++) {
 
-  </div>
+                $("#IncTypes ul").append('<li><a href="ReportSubmission.html?IncType=' + data[i][0] + '">' + data[i][1] + '</a></li>');
 
+            }
+            $("#IncTypes ul").listview("refresh");
 
+            console.log(status);
+        }
+        function OnGetMemberError(data, status) {
+            console.log("error");
+        }
 
-  </body>
+    </script>
+</body>
 </html>
