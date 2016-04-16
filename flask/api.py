@@ -31,6 +31,10 @@ def incident_type():
     rows = cursor.fetchall()
     return json.dumps(rows, default=date_handler);
 
+
+
+
+#Severities
 @app.route("/severities")
 def severities():
     cursor.execute("SELECT * FROM SEVERITies")
@@ -38,11 +42,10 @@ def severities():
     return json.dumps(rows, default=date_handler);
 
 
-@app.route("/severities/<int:sev_id>", methods=['GET'])
-def severitiesByID(sev_id):
-    cursor.execute("SELECT * FROM SEVERITies WHERE SEV_ID = " + str(sev_id))
-    rows = cursor.fetchall()
-    return json.dumps(rows, default=date_handler);
+@app.route("/severities/<int:sev_id>", methods=['DELETE'])
+def severitiesDeleteByID(sev_id):
+    cursor.execute("DELETE FROM SEVERITies WHERE SEV_ID = " + str(sev_id))	
+    return True;
 
 
 if __name__ == "__main__":
