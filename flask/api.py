@@ -38,13 +38,13 @@ def incident_subtypes():
     return json.dumps(rows, default=date_handler);
 
 @app.route("/incidentsubtype_by_id/<int:id>")
-def incidentSubtype(id):
+def incidentSubtypeByID(id):
     cursor.execute("SELECT * FROM INCIDENT_SUBTYPE WHERE IST_ID = " + str(id))
     rows = cursor.fetchall()
     return json.dumps(rows, default=date_handler);
 
 @app.route("/incidentsubtype_by_typeid/<int:itype>")
-def incidentSubtype(itype):
+def incidentSubtypeByTypeID(itype):
     cursor.execute("SELECT * FROM INCIDENT_SUBTYPE WHERE IST_TYPEID = " + str(itype))
     rows = cursor.fetchall()
     return json.dumps(rows, default=date_handler);
