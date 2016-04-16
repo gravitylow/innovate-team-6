@@ -27,7 +27,7 @@ def incident_subtype(itype):
 
 @app.route("/incidenttype/<int:maintype>", methods=['GET'])
 def incident_type(maintype):
-    cursor.execute("SELECT * FROM INCIDENT_TYPE WHERE = MAINTYPE" & maintype)
+    cursor.execute("SELECT * FROM INCIDENT_TYPE WHERE MAINTYPE = " & maintype)
     rows = cursor.fetchall()
     return json.dumps(rows, default=date_handler);
 
