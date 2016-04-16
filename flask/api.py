@@ -21,6 +21,12 @@ def date_handler(obj):
 def hello():
     return "Hello World!"
 
+@app.route("/incidentsubtype/<int:itype>")
+def incident_subtype(type):
+    cursor.execute("SELECT * FROM INCIDENT_SUBTYPE WHERE IST_TYPEID = '" + itype + "'")
+    rows = cursor.fetchall()
+    return json.dumps(rows, default=date_handler);
+
 @app.route("/incidenttype")
 def incident_type():
     cursor.execute("SELECT * FROM INCIDENT_TYPE")
