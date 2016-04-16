@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, redirect, request
 from flask.ext.cors import CORS
 import MySQLdb
 import json
