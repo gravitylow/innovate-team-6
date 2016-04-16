@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+  	<title>IRS we are here to help</title>
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+  	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+  	<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+		<style>
+			#map {
+				width: 100%;
+				height: 20em;
+				padding: 1em;
+			}
+		</style>
+  </head>
+ <body>
+
+<div data-role="page" id="pageone">
+  <div data-role="header">
+  <h1>Incident Reporting Service</h1>
+  </div>
+
+  <div data-role="main" class="ui-content">
+  <h4>Recent Incident Reports</h4>
+
+	<ul id="reports" data-role="listview" data-inset="true" data-filter="true">
+	</ul>
+
+	<div id="map"></div>
+
+  </div>
+
+  <div data-role="footer">
+  <h1>NNS Open line number:1-877-631-0020</h1>
+  </div>
+</div>
+<script>
+	$.ajax({
+		type: "GET",
+		url: "http://54.152.223.36:5000/incident",
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
+		success: OnGetIncidentsSuccess,
+		error: OnGetIncidentsError
+	});
+	function OnGetIncidentsSuccess(data,status){
+	  var options = {
+	    zoom: 15,
+	    mapTypeControl: false,
+	    navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
+	    mapTypeId: google.maps.MapTypeId.ROADMAP
+	  };
+	  var map = new google.maps.Map(document.getElementById("map"), options);
+
+		for(var i = 0; i <data.length;i++){
+		  $("#reports").append('<li><a href="ReportSubmission.html?IncType='+data[i][0]+'">'+data[i][2]+'</a></li>');
+			var latlng = new google.maps.LatLng(parseFloat(data[i][6]), parseFloat(data[i][7]));
+			var marker = new google.maps.Marker({
+					position: latlng,
+					map: map,
+					title: data[i][2]
+			});
+			map.setCenter(latlng);
+		}
+		$("#reports").listview("refresh");
+	}
+	function OnGetIncidentsError(data,status){
+
+	}
+</script>
+
+</body>
+</html>
