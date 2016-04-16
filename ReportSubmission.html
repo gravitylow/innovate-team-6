@@ -6,33 +6,79 @@
   	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
   	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
   	<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+<script type="text/javascript">
+    function getQueryVariable(variable)
+{
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+}
+	 function getIncidentSubTypes() {
+	      $('input[type=button]').attr('disabled', true);
+
+	      var TypeID =getQueryVariable('IncType');
+	      console.log(TypeID);
+	      $.ajax({
+		type: "GET",
+		url: "http://54.152.223.36:5000/incidentsubtype_by_typeid",
+		data: TypeID,
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
+		success: OnGetIncidentSubTypesSuccess,
+		error: OnGetIncidentSubTypesError
+		});
+	    }
+	  function OnGetIncidentSubTypesSuccess(data,status){
+    
+    		console.log(data);
+		for( i = 0; i <data.length;i++){
+		
+		  $("#subtype").append('<option value="'+data[0]+'">'+data[i][2] +'</option>');
+		
+		}
+		$("#IncTypes ul").listview("refresh");
+		
+		console.log(status);
+
+    
+    }
+    
+    function OnGetIncidentSubTypesError(data,status){
+
+    console.log("error");
+
+    }
+
+</script>
   </head>
- <body>
+ <body onload="getIncidentSubTypes()">
 
 <div data-role="page" id="pageone">
   <div data-role="header">
-  <h1>Incident reporting Service</h1>
+  <h1>Incedent reporting Service</h1>
   </div>
 
   <div data-role="main" class="ui-content">
   <h4>In the event of an emergency please dial 911</h4>
-
-  <form method="post" action="http://54.152.223.36:5000/incident">
+  
+  <form method="post" action="demoform.asp">
 
   <label for="name">name:</label>
   <input type="text" name="name" id="name">
 
   <label for="eID">Employee ID:</label>
   <input type="text" name="eID" id="eID">
-
+  
   <label for="details">details:</label>
   <textarea name="details" id="details"></textarea>
 
     <label for="subtype">Issue SubType</label>
-    <select name="subtype" id="day">
-      <option value="1">Unathorized Photography</option>
-      <option value="2">Missing Badge</option>
-      <option value="3">Suspicious behaviour</option>
+    <select name="subtype" id="subtype">
+    
     </select>
 
   </form>
@@ -43,19 +89,7 @@
   <div data-role="footer">
   <h1>NNS Open line number:1-877-631-0020</h1>
   </div>
-</div>
-<script>
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(success, error);
-  function success(position) {
-  }
-  function error(message) {
-
-  }
-} else {
-  error('not supported');
-}
-</script>
+</div> 
 
 </body>
 </html>
