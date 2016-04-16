@@ -46,7 +46,7 @@ def incidentSubmit():
                    """ + description + """,
                    """ + latitude + """,
                    """ + longitude + ")")
-    return 'OK, thanks luv you bye'
+    return render_template('Submitted.html')
 
 @app.route("/incident/<int:id>")
 def incidentByID():
