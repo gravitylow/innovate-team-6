@@ -43,7 +43,7 @@ def incidentSubmit():
        db.rollback()
 
     # return "Yay!"
-    return redirect("http://54.152.223.36/Submitted.html", code=302)
+    return redirect("http://54.152.223.36/irs/Submitted.html", code=302)
 
 @app.route("/incident/<int:id>")
 def incidentByID(id):
