@@ -8,7 +8,7 @@
   	<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
 		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 		<style>
-			#map {
+			#map, #map2 {
 				width: 100%;
 				height: 20em;
 				padding: 1em;
@@ -17,7 +17,7 @@
   </head>
  <body>
 
-<div data-role="page" id="pageone">
+<div data-role="page" id="home">
   <div data-role="header">
   <h1>Incident Reporting Service</h1>
   </div>
@@ -36,15 +36,59 @@
   <h1>NNS Open line number:1-877-631-0020</h1>
   </div>
 </div>
+<div data-role="page" id="report">
+  <div data-role="header">
+  <h1>Incident Reporting Service</h1>
+  </div>
+
+  <div data-role="main" class="ui-content">
+  <h4>Incident Report</h4>
+	<p>
+		<strong>Name:</strong>
+		<div id="name"></div>
+	</p>
+	<p>
+		<strong>Date:</strong>
+		<div id="date"></div>
+	</p>
+
+	<div id="map2"></div>
+
+  </div>
+
+  <div data-role="footer">
+  <h1>NNS Open line number:1-877-631-0020</h1>
+  </div>
+</div>
 <script>
-	$.ajax({
-		type: "GET",
-		url: "http://54.152.223.36:5000/incident",
-		contentType: "application/json; charset=utf-8",
-		dataType: "json",
-		success: OnGetIncidentsSuccess,
-		error: OnGetIncidentsError
+	function getParameterByName(name, url) {
+			if (!url) url = window.location.href;
+			console.log(url)
+			name = name.replace(/[\[\]]/g, "\\$&");
+			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)", "i"),
+					results = regex.exec(url);
+			if (!results) return null;
+			if (!results[2]) return '';
+			return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+	$(document).on("pagecreate", "#home", function(event) {
+			console.log('home')
+			getIncidents();
 	});
+	$(document).on("pagecreate", "#report", function(event) {
+			console.log('report')
+			getIncident();
+	});
+	function getIncidents() {
+		$.ajax({
+			type: "GET",
+			url: "http://54.152.223.36:5000/incident",
+			contentType: "application/json; charset=utf-8",
+			dataType: "json",
+			success: OnGetIncidentsSuccess,
+			error: OnGetIncidentsError
+		});
+	}
 	function OnGetIncidentsSuccess(data,status){
 	  var options = {
 	    zoom: 15,
@@ -55,8 +99,9 @@
 	  var map = new google.maps.Map(document.getElementById("map"), options);
 
 		for(var i = 0; i <data.length;i++){
-		  $("#reports").append('<li><a href="ReportSubmission.html?IncType='+data[i][0]+'">'+data[i][2]+'</a></li>');
+		  $("#reports").append('<li><a href="#report?IncId='+data[i][0]+'">'+data[i][2]+'</a></li>');
 			var latlng = new google.maps.LatLng(parseFloat(data[i][6]), parseFloat(data[i][7]));
+			console.log(latlng.lat());
 			if (latlng.lat() == NaN || latlng.lng() == NaN) {
 				continue;
 			}
@@ -70,6 +115,48 @@
 		$("#reports").listview("refresh");
 	}
 	function OnGetIncidentsError(data,status){
+
+	}
+	function getIncident() {
+			setTimeout(function(){
+				var IncID = getParameterByName('IncId');
+				$.ajax({
+					type: "GET",
+					url: "http://54.152.223.36:5000/incident/" + IncID,
+					contentType: "application/json; charset=utf-8",
+					dataType: "json",
+					success: OnGetIncidentSuccess,
+					error: OnGetIncidentError
+				});
+			}, 100);
+	}
+	function OnGetIncidentSuccess(data,status){
+		var options = {
+			zoom: 15,
+			mapTypeControl: false,
+			navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		var map = new google.maps.Map(document.getElementById("map2"), options);
+
+		for(var i = 0; i <data.length;i++){
+			var latlng = new google.maps.LatLng(parseFloat(data[i][6]), parseFloat(data[i][7]));
+			$('#name').html(data[i][2]);
+			$('#date').html(data[i][8]);
+			console.log(latlng.lng())
+			if (latlng.lat() == NaN || latlng.lng() == NaN) {
+				continue;
+			}
+			var marker = new google.maps.Marker({
+					position: latlng,
+					map: map,
+					title: data[i][2]
+			});
+			map.setCenter(latlng);
+			$('#map2').css('display', 'block');
+		}
+	}
+	function OnGetIncidentError(data,status){
 
 	}
 </script>
