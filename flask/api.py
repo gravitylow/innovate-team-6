@@ -20,7 +20,7 @@ def hello():
     return "Hello World!"
 
 @app.route("/incident")
-@def incidents():
+def incidents():
     cursor.execute("SELECT * FROM INCIDENTS")
     rows = cursor.fetchall()
     return json.dumps(rows, default=date_handler);
