@@ -1,11 +1,9 @@
 from flask import Flask
-from flask.ext.cors import CORS
 import MySQLdb
 import json
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-CORS(app)
 
 db = MySQLdb.connect(host="ec2-54-152-223-36.compute-1.amazonaws.com",
                      user="root",
@@ -38,14 +36,14 @@ def incidentSubmit():
     longitude = request.form['INC_LONG']
     cursor.execute("""INSERT INTO INCIDENTS
                    (INC_SUBTYPEID, INC_SEVERITYID, INC_CONTACTNAME, INC_CONTACTPHONE, INC_DESC, INC_LAT, INC_LONG)
-                   VALUES (""" + \
-                   subtypeid + ", " + \
-                   severityid + ", " + \
-                   contactname + ", " + \
-                   contactphone + ", " + \
-                   description + ", " + \
-                   latitude + ", " + \
-                   longitude + ")"
+                   VALUES (
+                   """ + subtypeid + """,
+                   """ + severityid + """,
+                   """ + contactname + """,
+                   """ + contactphone + """,
+                   """ + description + """,
+                   """ + latitude + """,
+                   """ + longitude + ")")
     return 'OK, thanks luv you bye'
 
 @app.route("/incident/<int:id>")
