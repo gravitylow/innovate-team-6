@@ -42,7 +42,8 @@ def incidentSubmit():
     except:
        db.rollback()
 
-    return "Yay!" #return render_template('Submitted.html')
+    # return "Yay!"
+    return render_template('Submitted.html')
 
 @app.route("/incident/<int:id>")
 def incidentByID(id):
