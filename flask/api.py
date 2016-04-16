@@ -25,9 +25,9 @@ def incident_subtype(itype):
     rows = cursor.fetchall()
     return json.dumps(rows, default=date_handler);
 
-@app.route("/incidenttype")
-def incident_type():
-    cursor.execute("SELECT * FROM INCIDENT_TYPE")
+@app.route("/incidenttype/<int:maintype>", methods=['GET'])
+def incident_type(maintype):
+    cursor.execute("SELECT * FROM INCIDENT_TYPE WHERE INT_ID = " + str(maintype) + "'" )
     rows = cursor.fetchall()
     return json.dumps(rows, default=date_handler);
 
@@ -42,11 +42,16 @@ def severities():
     return json.dumps(rows, default=date_handler);
 
 
+@app.route("/severities/<int:sev_id>", methods=['GET'])
+def severitiesByID(sev_id):
+    cursor.execute("SELECT * FROM SEVERITies WHERE SEV_ID = " + str(sev_id) + "'")
+    rows = cursor.fetchall()
+    return json.dumps(rows, default=date_handler);
+
 @app.route("/severities/<int:sev_id>", methods=['DELETE'])
 def severitiesDeleteByID(sev_id):
     cursor.execute("DELETE FROM SEVERITies WHERE SEV_ID = " + str(sev_id))	
     return True;
-
 
 if __name__ == "__main__":
     app.run()
