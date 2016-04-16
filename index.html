@@ -6,26 +6,65 @@
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
     <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
-  
+
 </head>
 <body>
-    <div data-role="page">
+    <div data-role="page" id="home">
         <div data-role="header">
             <h1>IRS</h1>
         </div>
         <div data-role="content">
             <h4>In the event of an emergency please call 911</h4>
-            <div id="IncTypes">
-                <ul data-role="listview" data-inset="true" data-filter="true"></ul>
-            </div>
+            <ul id="IncTypes" data-role="listview" data-inset="true" data-filter="true"></ul>
         </div>
         <div data-role="footer">
             <h1>NNS Open line number: 1-877-631-0020</h1>
         </div>
     </div>
+    <div data-role="page" id="report">
+        <div data-role="header">
+            <h1>Incident Reporting Service</h1>
+        </div>
+        <div data-role="main" class="ui-content">
+            <h4>In the event of an emergency please dial 911</h4>
+            <form id="SubMissionForm" method="post" action="http://54.152.223.36:5000/incident_submit">
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name">
+                <label for="eID">Employee ID:</label>
+                <input type="text" name="eID" id="eID">
+                <label for="phone">Phone Number:</label>
+                <input type="text" name="phone" id="phone">
+                <label for="details">Details:</label>
+                <textarea name="details" id="details"></textarea>
+                <label for="subtype">Issue SubType</label>
+                <select name="subtype" id="subtype"></select>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <div data-role="footer">
+            <h1>NNS Open line number:1-877-631-0020</h1>
+        </div>
+    </div>
     <script type="text/javascript">
 
-        getIncidentTypes();
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            console.log(url)
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)", "i"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+        $(document).on("pagecreate", "#home", function(event) {
+            console.log('home')
+            getIncidentTypes();
+        });
+        $(document).on("pagecreate", "#report", function(event) {
+            console.log('report')
+            getIncidentSubTypes();
+        });
 
         function getIncidentTypes() {
             $('input[type=button]').attr('disabled', true);
@@ -41,22 +80,60 @@
                 error: OnGetMemberError
             });
         }
-
         function OnGetIncidentTypesSuccess(data, status) {
-            console.log(data);
             for (i = 0; i < data.length; i++) {
-
-                $("#IncTypes ul").append('<li><a href="ReportSubmission.html?IncType=' + data[i][0] + '">' + data[i][1] + '</a></li>');
-
+                $("#IncTypes").append('<li><a href="#report?IncType=' + data[i][0] + '">' + data[i][1] + '</a></li>');
             }
-            $("#IncTypes ul").listview("refresh");
-
-            console.log(status);
+            $("#IncTypes").listview("refresh");
         }
         function OnGetMemberError(data, status) {
-            console.log("error");
+            console.log(data);
         }
+        function getIncidentSubTypes() {
+            setTimeout(function(){
+                var TypeID = getParameterByName('IncType');
+                console.log(TypeID);
+                $.ajax({
+                    type: "GET",
+                    url: "http://54.152.223.36:5000/incidentsubtype_by_typeid/" + TypeID,
+                    data: "{}",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: OnGetIncidentSubTypesSuccess,
+                    error: OnGetIncidentSubTypesError
+                });
+            }, 100);
+            getLocation();
+        }
+        function OnGetIncidentSubTypesSuccess(data, status) {
+            for (i = 0; i < data.length; i++) {
+                $("#subtype").append('<option value="' + data[i][0] + '">' + data[i][3] + '</option>');
+            }
+            $("#subtype").selectmenu("refresh");
+        }
+        function OnGetIncidentSubTypesError(data, status) {
+            console.log(data);
+        }
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                alert("Location is not supported by this device");
+            }
+        }
+        function showPosition(position) {
+            var x = document.createElement("input");
+            var y = document.createElement("input");
+            x.setAttribute("type", "hidden");
+            y.setAttribute("type", "hidden");
+            x.setAttribute("name", "lat");
+            y.setAttribute("name", "long");
+            x.setAttribute("value", position.coords.latitude);
+            y.setAttribute("value", position.coords.longitude);
 
+            document.getElementById("SubMissionForm").appendChild(x);
+            document.getElementById("SubMissionForm").appendChild(y);
+        }
     </script>
 </body>
 </html>
