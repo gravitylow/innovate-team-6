@@ -1,11 +1,9 @@
 from flask import Flask
-from flask.ext.cors import CORS
 import MySQLdb
 import json
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-CORS(app)
 
 db = MySQLdb.connect(host="ec2-54-152-223-36.compute-1.amazonaws.com",
                      user="root",
@@ -46,7 +44,7 @@ def incidentSubmit():
                    description + ", " +
                    latitude + ", " +
                    longitude + ")"
-    return render_template('Submitted.html')
+    return 'OK, thanks luv you bye'
 
 @app.route("/incident/<int:id>")
 def incidentByID():
@@ -94,7 +92,7 @@ def severities():
 
 @app.route("/severities/<int:sev_id>", methods=['GET'])
 def severitiesByID(sev_id):
-    cursor.execute("SELECT * FROM SEVERITies WHERE SEV_ID = " + str(sev_id))
+    cursor.execute("SELECT * FROM SEVERITies WHERE SEV_ID = " + str(sev_id) + "'")
     rows = cursor.fetchall()
     return json.dumps(rows, default=date_handler);
 
