@@ -36,7 +36,7 @@ def incidentSubmit():
     description = request.form['details']
     latitude = request.form['lat']
     longitude = request.form['long']
-    cursor.execute("INSERT INTO INCIDENTS (INC_SUBTYPEID, INC_CONTACTNAME, INC_CONTACTPHONE, INC_CONTACTEMPLOYID, INC_DESC, INC_LAT, INC_LONG) VALUES (" + subtypeid + "," + contactname + "," + contactphone + "," + contactemployid + "," + description + "," + latitude + "," + longitude + ")")
+    cursor.execute("INSERT INTO INCIDENTS (INC_SUBTYPEID, INC_CONTACTNAME, INC_CONTACTPHONE, INC_CONTACTEMPLOYID, INC_DESC, INC_LAT, INC_LONG) VALUES (" + subtypeid + ",'" + contactname + "','" + contactphone + "','" + contactemployid + "','" + description + "','" + latitude + "','" + longitude + "')")
     return "Yay!" #return render_template('Submitted.html')
 
 @app.route("/incident/<int:id>")
