@@ -31,7 +31,8 @@
 		  $("#IncTypes ul").append('<li><a href="ReportSubmission.html?IncType='+data[i][0]+'">'+data[i][1]+'</a></li>');
 		
 		}
-		
+			$("#IncTypes ul").listview("refresh");
+	
 		console.log(status);
 		}
 	    function OnGetMemberError(data,status)
