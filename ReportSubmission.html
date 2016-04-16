@@ -18,7 +18,7 @@
        return(false);
 }
 	 function getIncidentSubTypes() {
-	
+
 	      var TypeID =getQueryVariable('IncType');
 	      console.log(TypeID);
 	      $.ajax({
@@ -30,37 +30,37 @@
 		success: OnGetIncidentSubTypesSuccess,
 		error: OnGetIncidentSubTypesError
 		});
-		
+
 		    getLocation();
 
 	    }
 	  function OnGetIncidentSubTypesSuccess(data,status){
-    
+
     		console.log(data);
 		for( i = 0; i <data.length;i++){
 		
-		  $("#subtype").append('<option value="'+data[0]+'">'+data[i][3] +'</option>');
-		
+		  $("#subtype").append('<option value="'+data[i][0]+'">'+data[i][3] +'</option>');
+
 		}
 		$("#IncTypes ul").listview("refresh");
-		
+
 		console.log(status);
 
-    
+
     }
-    
+
     function OnGetIncidentSubTypesError(data,status){
 
     console.log("error");
 
     }
-    
-    
-    
+
+
+
     function getLocation() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
-    } else { 
+    } else {
      alert("Location is not supported by this device");
     }
      }
@@ -74,7 +74,7 @@ function showPosition(position) {
     y.setAttribute("name","long");
     x.setAttribute("value",position.coords.latitude);
     y.setAttribute("value",position.coords.longitude);
-    
+
     document.getElementById("SubMissionForm").appendChild(x);
     document.getElementById("SubMissionForm").appendChild(y);
 }
@@ -89,7 +89,7 @@ function showPosition(position) {
 
   <div data-role="main" class="ui-content">
   <h4>In the event of an emergency please dial 911</h4>
-  
+
   <form  id = "SubMissionForm" method="post" action="http://54.152.223.36:5000/incident_submit">
 
   <label for="name">Name:</label>
@@ -97,18 +97,18 @@ function showPosition(position) {
 
   <label for="eID">Employee ID:</label>
   <input type="text" name="eID" id="eID">
-  
+
   <label for="phone">Phone Number:</label>
   <input type="text" name="phone" id="phone">
-  
+
   <label for="details">Details:</label>
   <textarea name="details" id="details"></textarea>
 
     <label for="subtype">Issue SubType</label>
     <select name="subtype" id="subtype">
-    
-    
-    
+
+
+
     </select>
 
 <input type="submit" value="Submit">
@@ -119,7 +119,7 @@ function showPosition(position) {
   <div data-role="footer">
   <h1>NNS Open line number:1-877-631-0020</h1>
   </div>
-</div> 
+</div>
 
 </body>
 </html>
