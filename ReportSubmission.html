@@ -17,7 +17,7 @@
   <div data-role="main" class="ui-content">
   <h4>In the event of an emergency please dial 911</h4>
 
-  <form method="post" action="demoform.asp">
+  <form method="post" action="http://54.152.223.36:5000/incident">
 
   <label for="name">name:</label>
   <input type="text" name="name" id="name">
@@ -44,6 +44,18 @@
   <h1>NNS Open line number:1-877-631-0020</h1>
   </div>
 </div>
+<script>
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(success, error);
+  function success(position) {
+  }
+  function error(message) {
+
+  }
+} else {
+  error('not supported');
+}
+</script>
 
 </body>
 </html>
