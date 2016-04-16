@@ -24,8 +24,8 @@
 	      console.log(TypeID);
 	      $.ajax({
 		type: "GET",
-		url: "http://54.152.223.36:5000/incidentsubtype_by_typeid",
-		data: TypeID,
+		url: "http://54.152.223.36:5000/incidentsubtype_by_typeid/"+TypeID,
+		data: "{}",
 		contentType: "application/json; charset=utf-8",
 		dataType: "json",
 		success: OnGetIncidentSubTypesSuccess,
