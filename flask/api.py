@@ -29,20 +29,20 @@ def incidents():
 
 @app.route("/incident_submit", methods=['POST'])
 def incidentSubmit():
-    subtypeid = request.form['INC_SUBTYPEID']
-    severityid = request.form['INC_SEVERITYID']
-    contactname = request.form['INC_CONTACTNAME']
-    contactphone = request.form['INC_CONTACTPHONE']
-    description = request.form['INC_DESC']
-    latitude = request.form['INC_LAT']
-    longitude = request.form['INC_LONG']
+    subtypeid = request.form['subtype']
+    contactname = request.form['name']
+    contactphone = request.form['phone']
+    contactemployid = request.form['eID']
+    description = request.form['details']
+    latitude = request.form['lat']
+    longitude = request.form['long']
     cursor.execute("""INSERT INTO INCIDENTS
-                   (INC_SUBTYPEID, INC_SEVERITYID, INC_CONTACTNAME, INC_CONTACTPHONE, INC_DESC, INC_LAT, INC_LONG)
+                   (INC_SUBTYPEID, INC_CONTACTNAME, INC_CONTACTPHONE, INC_CONTACTEMPLOYID, INC_DESC, INC_LAT, INC_LONG)
                    VALUES (
                    """ + subtypeid + """,
-                   """ + severityid + """,
                    """ + contactname + """,
                    """ + contactphone + """,
+                   """ + contactemployid + """,
                    """ + description + """,
                    """ + latitude + """,
                    """ + longitude + ")")
