@@ -1,9 +1,11 @@
 from flask import Flask
+from flask.ext.cors import CORS
 import MySQLdb
 import json
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
+CORS(app)
 
 db = MySQLdb.connect(host="ec2-54-152-223-36.compute-1.amazonaws.com",
                      user="root",
