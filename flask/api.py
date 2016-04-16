@@ -49,7 +49,7 @@ def incidentSubmit():
     return render_template('Submitted.html')
 
 @app.route("/incident/<int:id>")
-def incidentByID():
+def incidentByID(id):
     cursor.execute("SELECT * FROM INCIDENTS WHERE INC_ID = " + str(id))
     rows = cursor.fetchall()
     return json.dumps(rows, default=date_handler);
