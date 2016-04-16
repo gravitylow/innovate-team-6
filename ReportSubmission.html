@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+  	<title>IRS we are here to help</title>
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+  	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+  	<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+  </head>
+ <body>
+
+<div data-role="page" id="pageone">
+  <div data-role="header">
+  <h1>Incedent reporting Service</h1>
+  </div>
+
+  <div data-role="main" class="ui-content">
+  <p>In the event of an emergency please dial 911</p>
+  
+  <form method="post" action="demoform.asp">
+
+  <label for="name">name:</label>
+  <input type="text" name="name" id="name">
+
+  <label for="eID">Employee ID:</label>
+  <input type="text" name="eID" id="eID">
+  
+  <label for="details">details:</label>
+  <textarea name="details" id="details"></textarea>
+
+    <label for="subtype">Issue SubType</label>
+    <select name="subtype" id="day">
+      <option value="1">Unathorized Photography</option>
+      <option value="2">Missing Badge</option>
+      <option value="3">Suspicious behaviour</option>
+    </select>
+
+  </form>
+<input type="button" value="Submit">
+
+  </div>
+
+  <div data-role="footer">
+  <h1>NNS Open line number:</h1>
+  </div>
+</div> 
+
+</body>
+</html>
