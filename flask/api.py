@@ -19,15 +19,39 @@ def date_handler(obj):
 def hello():
     return "Hello World!"
 
-@app.route("/incidentsubtype/<int:itype>")
-def incident_subtype(itype):
+@app.route("/incident/<int:id>")
+def incidentByID():
+    cursor.execute("SELECT * FROM INCIDENTS WHERE INC_ID = " + str(id))
+    rows = cursor.fetchall()
+    return json.dumps(rows, default=date_handler);
+
+@app.route("/incidentsubtypes")
+def incident_subtypes():
+    cursor.execute("SELECT * FROM INCIDENT_SUBTYPE")
+    rows = cursor.fetchall()
+    return json.dumps(rows, default=date_handler);
+
+@app.route("/incidentsubtype_by_id/<int:id>")
+def incidentSubtype(id):
+    cursor.execute("SELECT * FROM INCIDENT_SUBTYPE WHERE IST_ID = " + str(id))
+    rows = cursor.fetchall()
+    return json.dumps(rows, default=date_handler);
+
+@app.route("/incidentsubtype_by_typeid/<int:itype>")
+def incidentSubtype(itype):
     cursor.execute("SELECT * FROM INCIDENT_SUBTYPE WHERE IST_TYPEID = " + str(itype))
     rows = cursor.fetchall()
     return json.dumps(rows, default=date_handler);
 
 @app.route("/incidenttype")
-def incident_type():
+def incidentType():
     cursor.execute("SELECT * FROM INCIDENT_TYPE")
+    rows = cursor.fetchall()
+    return json.dumps(rows, default=date_handler);
+
+@app.route("/incidenttype/<int:id>")
+def incidentTypeByID(id):
+    cursor.execute("SELECT * FROM INCIDENT_TYPE WHERE IT_ID = " + str(id))
     rows = cursor.fetchall()
     return json.dumps(rows, default=date_handler);
 
