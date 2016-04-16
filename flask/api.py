@@ -21,7 +21,7 @@ def hello():
 
 @app.route("/incidentsubtype/<int:itype>")
 def incident_subtype(itype):
-    cursor.execute("SELECT * FROM INCIDENT_SUBTYPE WHERE IST_TYPEID = '" + itype + "'")
+    cursor.execute("SELECT * FROM INCIDENT_SUBTYPE WHERE IST_TYPEID = " + str(itype))
     rows = cursor.fetchall()
     return json.dumps(rows, default=date_handler);
 
