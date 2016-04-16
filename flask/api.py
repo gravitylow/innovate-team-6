@@ -25,5 +25,11 @@ def incident_type():
     rows = cursor.fetchall()
     return json.dumps(rows, default=date_handler);
 
+@app.route("/severities")
+def severities():
+    cursor.execute("SELECT * FROM SEVERITies")
+    rows = cursor.fetchall()
+    return json.dumps(rows, default=date_handler);
+
 if __name__ == "__main__":
     app.run()
