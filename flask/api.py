@@ -27,6 +27,27 @@ def incidents():
     rows = cursor.fetchall()
     return json.dumps(rows, default=date_handler);
 
+@app.route("/incident_submit", methods=['POST'])
+def incidentSubmit():
+    subtypeid = request.form['INC_SUBTYPEID']
+    severityid = request.form['INC_SEVERITYID']
+    contactname = request.form['INC_CONTACTNAME']
+    contactphone = request.form['INC_CONTACTPHONE']
+    description = request.form['INC_DESC']
+    latitude = request.form['INC_LAT']
+    longitude = request.form['INC_LONG']
+    cursor.execute("INSERT INTO INCIDENTS "
+                   "(INC_SUBTYPEID, INC_SEVERITYID, INC_CONTACTNAME, INC_CONTACTPHONE, INC_DESC, INC_LAT, INC_LONG) " +
+                   "VALUES (" +
+                   subtypeid + ", " +
+                   severityid + ", " +
+                   contactname + ", " +
+                   contactphone + ", " +
+                   description + ", " +
+                   latitude + ", " +
+                   longitude + ")"
+    return render_template('Submitted.html')
+
 @app.route("/incident/<int:id>")
 def incidentByID():
     cursor.execute("SELECT * FROM INCIDENTS WHERE INC_ID = " + str(id))
