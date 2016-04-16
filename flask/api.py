@@ -34,8 +34,12 @@ def incidentSubmit():
     contactphone = request.form['phone']
     contactemployid = request.form['eID']
     description = request.form['details']
-    latitude = request.form['lat']
-    longitude = request.form['long']
+    latitude = 0
+    longitude = 0
+    if 'lat' in request.form:
+        latitude = request.form['lat']
+    if 'long' in request.form:
+        longitude = request.form['long']
     try:
        cursor.execute("INSERT INTO INCIDENTS (INC_SUBTYPEID, INC_CONTACTNAME, INC_CONTACTPHONE, INC_CONTACTEMPLOYID, INC_DESC, INC_LAT, INC_LONG) VALUES (" + subtypeid + ",'" + contactname + "','" + contactphone + "','" + contactemployid + "','" + description + "','" + latitude + "','" + longitude + "')")
        db.commit()
