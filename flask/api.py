@@ -27,7 +27,7 @@ def incident_subtype(itype):
 
 @app.route("/incidenttype/<int:maintype>", methods=['GET'])
 def incident_type(maintype):
-    cursor.execute("SELECT * FROM INCIDENT_TYPE WHERE MAINTYPE = " & maintype)
+    cursor.execute("SELECT * FROM INCIDENT_TYPE WHERE INT_ID = " + str(maintype) + "'" )
     rows = cursor.fetchall()
     return json.dumps(rows, default=date_handler);
 
@@ -40,7 +40,7 @@ def severities():
 
 @app.route("/severities/<int:sev_id>", methods=['GET'])
 def severitiesByID(sev_id):
-    cursor.execute("SELECT * FROM SEVERITies WHERE SEV_ID = " & sev_id)
+    cursor.execute("SELECT * FROM SEVERITies WHERE SEV_ID = " + str(sev_id) + "'")
     rows = cursor.fetchall()
     return json.dumps(rows, default=date_handler);
 
